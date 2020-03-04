@@ -19,6 +19,7 @@ uint16_t copy_paste_timer;
 
 enum layers {
     QWERTY = 0,
+    QUD,
     LOWER,
     RAISE,
     NAV,
@@ -41,14 +42,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * | LCTL   |   Z  |   X  |   C  |   V  |   B  | CCCV |      |  |      |Leader|   N  |   M  | ,  < | . >  | /  ? |  - _   |
  * `----------------------+------+------+------+------+      |  |      +------+------+------+------+----------------------'
  *                        | CDL  | GUI  | ALT  | Space| DEL  |  | ENTER| Space|      | BSP  | TaskV|
- *                        |      |      |      | Lower| Raise|  | SHIFT| Nav  | Raise|      |      |
+ *                        |      |      |      | Lower| Raise|  | SHIFT| Raise| Nav  |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [QWERTY] = LAYOUT(
       KC_ESC,  KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
       MT(MOD_LSFT, KC_TAB), KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                            KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
       KC_LCTL, KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,   KC_CCCV,   XXXXXXX, XXXXXXX, KC_LEAD,  KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_MINS,
-              LCTL(KC_BSPC), KC_LGUI, KC_LALT, LT(LOWER, KC_SPC), LT(RAISE, KC_DEL), LSFT(KC_ENT), LT(RAISE, KC_SPC), MO(NAV), KC_BSPC, LGUI(KC_TAB)
+              LCTL(KC_BSPC), KC_LGUI, KC_LALT, LT(LOWER, KC_SPC), LT(RAISE, KC_DEL), MT(KC_RSFT, KC_ENT), LT(RAISE, KC_SPC), MO(NAV), KC_BSPC, LGUI(KC_TAB)
+    ),
+/*
+ * Qud Layer
+ *
+ * ,-------------------------------------------.                              ,-------------------------------------------.
+ * |        |      |      |      |      |      |                              |      |      |  N7  |  N8  |  N9  |        |
+ * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |                              |      |      |  N4  |  N5  |  N6  |        |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |      |  |      |Leader|      |  N0  |  N1  |  N2  |  N3  |        |
+ * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        |      |      | Lower|      | Raise|  |      | Raise| Nav  |      |      |
+ *                        `----------------------------------'  `----------------------------------'
+ */
+    [QUD] = LAYOUT(
+      _______, _______, _______, _______, _______, _______,                                     _______, KC_P7, KC_P8, KC_P9, _______, _______,
+      _______, _______, _______, _______, _______, _______,                                     _______, KC_P4, KC_P5, KC_P6, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_P0, KC_P1, KC_P2, KC_P3, _______, _______,
+                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
 /*
  * Lower Layer: Numpad, Media
@@ -58,10 +79,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |      | Prev | Play | Next |      |                              | *    | 4 $  | 5 %  | 6 ^  | , <  | +      |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |      |      | VolDn| Mute |      |      |      |  |      |      | 0 )  | 1 !  | 2 @  | 3 #  | = +  |        |
+ * |        |      |      | VolDn| Mute |      |      |      |  |      |Leader| 0 )  | 1 !  | 2 @  | 3 #  | = +  |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        |      |      | Lower|      |      |  |      | Nav  | Raise|      |      |
+ *                        |      |      | Lower|      | Raise|  |      | Raise| Nav  |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [LOWER] = LAYOUT(
@@ -78,10 +99,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |  #   |  $   |  (   |  )   |  `   |                              |   +  |  -   |  /   |  *   |  %   |  ' "   |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |  %   |  ^   |  [   |  ]   |  ~   |      |      |  |      |      |   &  |  =   |  ,   |  .   |  / ? | - _    |
+ * |        |  %   |  ^   |  [   |  ]   |  ~   |      |      |  |      |Leader|   &  |  =   |  ,   |  .   |  / ? | - _    |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        |      |      | Lower|      |      |  |      | Nav  | Raise|      |      |
+ *                        |      |      | Lower|      | Raise|  |      | Raise| Nav  |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [RAISE] = LAYOUT(
@@ -98,10 +119,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |      |      |      |      |      |                              | PgDn | Left | Down | Right|      | CapsLk |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |      |      |      |      |      |      |      |  |      |      |      |      |      |      |      |        |
+ * |        |      |      |      |      |      |      |      |  |      |Leader|      |      |      |      |      |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        |      |      | Lower|      |      |  |      | Nav  | Raise|      |      |
+ *                        |      |      | Lower|      | Raise|  |      | Raise| Nav  |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [NAV] = LAYOUT(
@@ -114,18 +135,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * Adjust Layer
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |      |      |      |      |      |                              |      | F7   | F8   | F9   | F10  |        |
+ * |        |      |      |      |      |      |                              | Insrt| F7   | F8   | F9   | F10  |        |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |      | SAI  | HUI  | VAI  |      |                              |      | F4   | F5   | F6   | F11  |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |      | SAD  | HUD  | VAD  |      |      |      |  |      |      |      | F1   | F2   | F3   | F12  |        |
+ * |        |      | SAD  | HUD  | VAD  |      |      |      |  |      |Leader|      | F1   | F2   | F3   | F12  |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        |      |      | Lower|      | Raise|  |      | Raise| Nav  |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [ADJUST] = LAYOUT(
-      _______, _______, _______, _______, _______, _______,                                     _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______,
+      _______, _______, _______, _______, _______, _______,                                     KC_INS, KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______,
       _______, _______, RGB_SAI, RGB_HUI, RGB_VAI, _______,                                     _______, KC_F4,   KC_F5,   KC_F6,   KC_F11,  _______,
       _______, _______, RGB_SAD, RGB_HUD, RGB_VAD, _______, _______, _______, _______, _______, _______, KC_F1,   KC_F2,   KC_F3,   KC_F12,  _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
@@ -138,10 +159,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
 //  * |        |      |      |      |      |      |                              |      |      |      |      |      |        |
 //  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
-//  * |        |      |      |      |      |      |      |      |  |      |      |      |      |      |      |      |        |
+//  * |        |      |      |      |      |      |      |      |  |      |Leader|      |      |      |      |      |        |
 //  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
 //  *                        |      |      |      |      |      |  |      |      |      |      |      |
-//  *                        |      |      |      |      |      |  |      |      |      |      |      |
+//  *                        |      |      | Lower|      | Raise|  |      | Raise| Nav  |      |      |
 //  *                        `----------------------------------'  `----------------------------------'
 //  */
 //     [_LAYERINDEX] = LAYOUT(
@@ -189,29 +210,14 @@ void matrix_scan_user(void) {
         SEQ_ONE_KEY(KC_S) { // Windows screenshot
             SEND_STRING(SS_LGUI("\nS"));
         }
-        SEQ_TWO_KEYS(KC_F, KC_P) { // Fusion Projection prefix
-            SEND_STRING("[Projection] ");
-        }
-        SEQ_TWO_KEYS(KC_E, KC_S) { // Email splitkb
-            SEND_STRING("thomas@splitkb.com");
-        }
-        SEQ_TWO_KEYS(KC_E, KC_P) { // Email personal
-            SEND_STRING("mail@thomasbaart.nl");
-        }
-        SEQ_TWO_KEYS(KC_S, KC_D) { // Splitkb documentation
-            SEND_STRING("https://docs.splitkb.com/");
-        }
-        SEQ_TWO_KEYS(KC_S, KC_V) { // Splitkb VAT number
-            SEND_STRING("NL210593349B01");
-        }
-        SEQ_THREE_KEYS(KC_S, KC_D, KC_K) { // Splitkb Kyria build log
-            SEND_STRING("https://docs.splitkb.com/docs/kyria-build-log/");
-        }
-        SEQ_TWO_KEYS(KC_B, KC_C) { // Discord bongocat
-            SEND_STRING(":bongocat:\n");
+        SEQ_ONE_KEY(KC_ESC) { // Return to base layer, needs to turn off ALL layers that can only be turned on through leader keys.
+            layer_off(1);
         }
         SEQ_TWO_KEYS(KC_C, KC_B) { // Discord code block
             SEND_STRING("```c" SS_LSFT("\n\n") "``` " SS_TAP(X_UP));
+        }
+        SEQ_THREE_KEYS(KC_Q, KC_U, KC_D) { // Caves of Qud layer (currently numpad instead of numrow for u,i,o/j,k,l/etc unlike lower layer)
+            layer_on(1);
         }
     }
 }
@@ -254,6 +260,9 @@ static void render_status(void) {
     switch (get_highest_layer(layer_state)) {
         case QWERTY:
             oled_write_P(PSTR("Default\n"), false);
+            break;
+        case QUD:
+            oled_write_P(PSTR("LiveNDrink\n"), false);
             break;
         case LOWER:
             oled_write_P(PSTR("Lower\n"), false);
